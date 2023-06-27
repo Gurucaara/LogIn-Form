@@ -13,7 +13,7 @@ const SignInOutContainer = () => {
     }
     return (
         <div>
-            <h1>Container</h1>
+            <h1>Form</h1>
             <Box sx={{ width: "100%", typography: 'body1', margin: "10px auto" }}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "center" }} >
@@ -22,7 +22,7 @@ const SignInOutContainer = () => {
                             <Tab label="Sign Up" value="2" />
                         </TabList>
                     </Box>
-                    <TabPanel value="1"><SignIn  handleChange={handleChange}/></TabPanel>
+                    <TabPanel value="1"><SignIn handleChange={handleChange} /></TabPanel>
                     <TabPanel value="2"><SignUp /></TabPanel>
                 </TabContext>
             </Box>
