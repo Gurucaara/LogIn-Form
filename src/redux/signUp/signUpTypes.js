@@ -1,0 +1,16 @@
+export const SET_NAME = "SET_NAME";
+export const SET_EMAIL = "SET_EMAIL";
+export const SET_GENDER = "SET_GENDER";
+export const SET_PHONE = "SET_PHONE";
+export const SET_PASSWORD = "SET_PASSWORD";
+export const SET_CONFIRM_PASSWORD = "SET_CONFIRM_PASSWORD";
+export const SET_ACCEPT_TERMS = "SET_ACCEPT_TERMS";
+export const SET_NAME_ERROR = "SET_NAME_ERROR";
+export const SET_EMAIL_ERROR = "SET_EMAIL_ERROR";
+export const SET_PHONE_ERROR = "SET_PHONE_ERROR";
+export const SET_PASSWORD_ERROR = "SET_PASSWORD_ERROR";
+export const SET_CONFIRM_PASSWORD_ERROR = "SET_CONFIRM_PASSWORD_ERROR";
+export const RESET_FORM = "RESET_FORM";
+export const SIGN_UP = "SIGN_UP";
+export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS"
+export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE"
