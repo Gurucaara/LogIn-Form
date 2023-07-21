@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Avatar,
   FormGroup,
@@ -10,16 +10,20 @@ import {
   Button,
   Link,
   Typography,
-} from '@mui/material';
-import LockIcon from '@mui/icons-material/Lock';
-import { connect } from 'react-redux';
+} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import { connect } from "react-redux";
 import {
   setUsername,
   setPassword,
   setUsernameError,
   setPasswordError,
   signIn,
-} from '../redux/signIn/signInActions';
+  remember,
+  setRemember,
+  isValidEmail,
+  isValidPassword,
+} from "../redux/signIn/signInActions";
 
 const SignIn = ({
   username,
@@ -30,17 +34,19 @@ const SignIn = ({
   setPassword,
   setUsernameError,
   setPasswordError,
+  handleChange,
+  setRemember,
   signIn,
 }) => {
   const paperStyle = {
     padding: 20,
-    height: '70vh',
+    height: "70vh",
     width: 280,
-    margin: '35px auto',
+    margin: "35px auto",
   };
-  const avatarBackground = { backgroundColor: '#239595' };
-  const btnStyling = { margin: '8px 0 ' };
-  const marginTop = { margin: '10px 0' };
+  const avatarBackground = { backgroundColor: "#239595" };
+  const btnStyling = { margin: "8px 0 " };
+  const marginTop = { margin: "10px 0" };
 
   const handleSignUpClick = () => {
     // Handle Sign Up click
@@ -51,11 +57,27 @@ const SignIn = ({
     e.preventDefault();
 
     // Clear previous error messages
-    setUsernameError('');
-    setPasswordError('');
+    setUsernameError("");
+    setPasswordError("");
 
     // Perform validation and sign in logic
-    signIn();
+    if (username.trim() === "") {
+      setUsernameError("Username is required.");
+    } else if (!isValidEmail(username)) {
+      setUsernameError("Invalid email format.");
+    } else if (password.trim() === "") {
+      setPasswordError("Password is required");
+    }  else {
+      signIn();
+    }
+
+    // if (username.trim() === "") {
+    //   setUsernameError("Username is required");
+    // } else if (password.trim() === "") {
+    //   setPasswordError("Password is required");
+    // } else {
+    //   signIn();
+    // }
   };
 
   return (
@@ -77,7 +99,7 @@ const SignIn = ({
             style={marginTop}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            error={usernameError !== ''}
+            error={usernameError !== ""}
             helperText={usernameError}
           />
 
@@ -90,13 +112,20 @@ const SignIn = ({
             style={marginTop}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            error={passwordError !== ''}
+            error={passwordError !== ""}
             helperText={passwordError}
           />
 
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox name="checked" color="primary" checked={false} />}
+              control={
+                <Checkbox
+                  name="remember"
+                  color="primary"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)} // Dispatch the action to change the remember state
+                />
+              }
               label="Remember me"
             />
           </FormGroup>
@@ -108,10 +137,10 @@ const SignIn = ({
             style={btnStyling}
             fullWidth
             disabled={
-              username.trim() === '' ||
-              password.trim() === '' ||
-              usernameError !== '' ||
-              passwordError !== ''
+              username.trim() === "" ||
+              password.trim() === "" ||
+              usernameError !== "" ||
+              passwordError !== ""
             }
           >
             Sign In
@@ -135,6 +164,7 @@ const mapStateToProps = (state) => {
   return {
     username: state.signIn.username,
     password: state.signIn.password,
+    remember: state.signIn.remember,
     usernameError: state.signIn.usernameError,
     passwordError: state.signIn.passwordError,
   };
@@ -146,9 +176,9 @@ const mapDispatchToProps = (dispatch) => {
     setPassword: (password) => dispatch(setPassword(password)),
     setUsernameError: (error) => dispatch(setUsernameError(error)),
     setPasswordError: (error) => dispatch(setPasswordError(error)),
+    setRemember: (remember) => dispatch(setRemember(remember)),
     signIn: () => dispatch(signIn()),
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

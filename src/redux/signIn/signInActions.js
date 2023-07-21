@@ -54,10 +54,11 @@ export const signIn = () => {
     const { username, password } = getState().signIn;
 
     // Perform validation logic
-    if (username === "admin" && password === "admin123") {
+    if (username === "foobar@test.com" && password === "Admin@123") {
       // Successful sign in
       // Dispatch additional actions if needed
       // For example: dispatch(someOtherAction());
+      alert("Sign in successful!")
       dispatch(resetForm("Sign in successful!"));
     } else {
       // Invalid credentials
@@ -65,4 +66,16 @@ export const signIn = () => {
       dispatch(setPasswordError("Invalid username or password"));
     }
   };
+};
+
+// Email validation regex
+export const isValidEmail = (email) => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
+// Password validation regex: At least 8 characters with at least one uppercase letter, one lowercase letter, and one number
+export const isValidPassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  return passwordRegex.test(password);
 };

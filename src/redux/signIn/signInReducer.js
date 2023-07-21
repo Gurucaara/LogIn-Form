@@ -22,11 +22,13 @@ const signInReducer = (state = initialState, action) => {
       return {
         ...state,
         username: action.payload,
+        usernameError: "", // Clear usernameError when user types in the username field
       };
     case SET_PASSWORD:
       return {
         ...state,
         password: action.payload,
+        passwordError: "", // Clear passwordError when user types in the password field
       };
     case SET_REMEMBER:
       return {
