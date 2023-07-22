@@ -22,7 +22,6 @@ import {
   remember,
   setRemember,
   isValidEmail,
-  isValidPassword,
 } from "../redux/signIn/signInActions";
 
 const SignIn = ({
@@ -67,17 +66,9 @@ const SignIn = ({
       setUsernameError("Invalid email format.");
     } else if (password.trim() === "") {
       setPasswordError("Password is required");
-    }  else {
+    } else {
       signIn();
     }
-
-    // if (username.trim() === "") {
-    //   setUsernameError("Username is required");
-    // } else if (password.trim() === "") {
-    //   setPasswordError("Password is required");
-    // } else {
-    //   signIn();
-    // }
   };
 
   return (

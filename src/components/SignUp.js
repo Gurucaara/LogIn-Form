@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -13,19 +13,24 @@ import {
   Radio,
   Checkbox,
   FormGroup,
-} from '@mui/material';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { connect } from 'react-redux';
+} from "@mui/material";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { connect } from "react-redux";
 import {
   setName,
+  setNameError,
   setEmail,
+  setEmailError,
   setGender,
   setPhone,
+  setPhoneError,
   setPassword,
+  setPasswordError,
   setConfirmPassword,
+  setConfirmPasswordError,
   setAcceptTerms,
   signUp,
-} from '../redux/signUp/signUpActions';
+} from "../redux/signUp/signUpActions";
 
 const SignUp = ({
   name,
@@ -35,6 +40,11 @@ const SignUp = ({
   password,
   confirmPassword,
   acceptTerms,
+  nameError,
+  emailError,
+  phoneError,
+  passwordError,
+  confirmPasswordError,
   setName,
   setEmail,
   setGender,
@@ -44,16 +54,20 @@ const SignUp = ({
   setAcceptTerms,
   signUp,
 }) => {
-  const paperStyle = { padding: '30px 20px', width: 300, margin: '20px auto' };
+  const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
   const headerStyle = { margin: 10 };
-  const avatarStyle = { backgroundColor: '#239595' };
-  const marginTop = { margin: '10px 0 ' };
+  const avatarStyle = { backgroundColor: "#239595" };
+  const marginTop = { margin: "10px 0 " };
 
   const handleSignUp = (e) => {
     e.preventDefault();
 
     // Clear previous error messages
-    // You can dispatch relevant actions here or handle them in signUp action creator
+    setNameError("");
+    setEmailError("");
+    setPhoneError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
 
     // Perform signup logic or dispatch an action
     signUp();
@@ -81,6 +95,8 @@ const SignUp = ({
             style={marginTop}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            error={!!nameError}
+            helperText={nameError}
           />
           <TextField
             fullWidth
@@ -90,6 +106,8 @@ const SignUp = ({
             style={marginTop}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
           />
 
           <FormControl style={marginTop}>
@@ -99,7 +117,7 @@ const SignUp = ({
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               name="radio-buttons-group"
-              style={{ display: 'initial' }}
+              style={{ display: "initial" }}
               value={gender}
               onChange={(e) => setGender(e.target.value)}
               required
@@ -109,11 +127,7 @@ const SignUp = ({
                 control={<Radio />}
                 label="Female"
               />
-              <FormControlLabel
-                value="male"
-                control={<Radio />}
-                label="Male"
-              />
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
               <FormControlLabel
                 value="other"
                 control={<Radio />}
@@ -130,6 +144,8 @@ const SignUp = ({
             style={marginTop}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            error={!!phoneError}
+            helperText={phoneError}
           />
           <TextField
             fullWidth
@@ -140,6 +156,8 @@ const SignUp = ({
             value={password}
             type="password"
             onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError}
+            helperText={passwordError}
           />
           <TextField
             fullWidth
@@ -150,6 +168,8 @@ const SignUp = ({
             style={marginTop}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            error={!!confirmPasswordError}
+            helperText={confirmPasswordError}
           />
 
           <FormGroup>
@@ -181,14 +201,34 @@ const SignUp = ({
 };
 
 const mapStateToProps = (state) => {
+  const {
+    name,
+    email,
+    gender,
+    phone,
+    password,
+    confirmPassword,
+    acceptTerms,
+    nameError,
+    emailError,
+    phoneError,
+    passwordError,
+    confirmPasswordError,
+  } = state.signUp;
+
   return {
-    name: state.signUp.name,
-    email: state.signUp.email,
-    gender: state.signUp.gender,
-    phone: state.signUp.phone,
-    password: state.signUp.password,
-    confirmPassword: state.signUp.confirmPassword,
-    acceptTerms: state.signUp.acceptTerms,
+    name,
+    email,
+    gender,
+    phone,
+    password,
+    confirmPassword,
+    acceptTerms,
+    nameError,
+    emailError,
+    phoneError,
+    passwordError,
+    confirmPasswordError,
   };
 };
 

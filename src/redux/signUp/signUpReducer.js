@@ -12,8 +12,6 @@ import {
   SET_PASSWORD_ERROR,
   SET_CONFIRM_PASSWORD_ERROR,
   RESET_FORM,
-  SIGN_UP_FAILURE,
-  SIGN_UP_SUCCESS
 } from "../signUp/signUpTypes";
 
 // Intitial State
@@ -24,7 +22,7 @@ const initialState = {
   phone: "",
   password: "",
   confirmPassword: "",
-  acceptTerms: "",
+  acceptTerms: false,
   nameError: "",
   emailError: "",
   phoneError: "",
@@ -95,7 +93,10 @@ const signUpReducer = (state = initialState, action) => {
         confirmPasswordError: action.payload,
       };
     case RESET_FORM:
-      return initialState;
+      return {
+        ...initialState,
+        acceptTerms: state.acceptTerms, // Preserve the acceptTerms value on form reset
+      };
     default:
       return state;
   }

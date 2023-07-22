@@ -74,8 +74,3 @@ export const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
-// Password validation regex: At least 8 characters with at least one uppercase letter, one lowercase letter, and one number
-export const isValidPassword = (password) => {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-  return passwordRegex.test(password);
-};

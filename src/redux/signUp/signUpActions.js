@@ -12,6 +12,8 @@ import {
   SET_PASSWORD_ERROR,
   SET_CONFIRM_PASSWORD_ERROR,
   RESET_FORM,
+  SIGN_UP_FAILURE,
+  SIGN_UP_SUCCESS,
 } from "../signUp/signUpTypes";
 
 export const setName = (name) => {
@@ -106,13 +108,13 @@ export const resetForm = () => {
 
 export const signUpSuccess = () => {
   return {
-    type: 'SIGN_UP_SUCCESS',
+    type: SIGN_UP_SUCCESS,
   };
 };
 
 export const signUpFailure = (error) => {
   return {
-    type: 'SIGN_UP_FAILURE',
+    type: SIGN_UP_FAILURE,
     payload: error,
   };
 };
@@ -121,58 +123,78 @@ export const signUp = () => {
   return (dispatch, getState) => {
     const userData = getState().signUp;
 
-    // Validate name
-    if (userData.name.trim() === '') {
-      dispatch(setNameError('Please enter your name.'));
+    if (userData.name.trim() === "") {
+      dispatch(setNameError("Please enter your name."));
       return;
+    } else {
+      dispatch(setNameError(""));
     }
 
     // Validate email
-    if (userData.email.trim() === '') {
-      dispatch(setEmailError('Please enter your email address.'));
+    if (userData.email.trim() === "") {
+      dispatch(setEmailError("Please enter your email address."));
       return;
     } else if (!isValidEmail(userData.email)) {
-      dispatch(setEmailError('Please enter a valid email address.'));
+      dispatch(setEmailError("Please enter a valid email address."));
       return;
+    } else {
+      dispatch(setEmailError(""));
     }
 
     // Validate phone number
-    if (userData.phone.trim() === '') {
-      dispatch(setPhoneError('Please enter your phone number.'));
+    if (userData.phone.trim() === "") {
+      dispatch(setPhoneError("Please enter your phone number."));
       return;
     } else if (!isValidPhoneNumber(userData.phone)) {
-      dispatch(setPhoneError('Please enter a valid phone number.'));
+      dispatch(setPhoneError("Please enter a valid phone number."));
       return;
+    } else {
+      dispatch(setPhoneError(""));
     }
 
     // Validate password
-    if (userData.password.trim() === '') {
-      dispatch(setPasswordError('Please enter a password.'));
+    if (userData.password.trim() === "") {
+      dispatch(setPasswordError("Please enter a password."));
       return;
-    } else if (userData.password.length < 6) {
-      dispatch(setPasswordError('Password should be at least 6 characters long.'));
+    } else if (!isValidPassword(userData.password)) {
+      dispatch(
+        setPasswordError(
+          "Password should be at least 8 characters long with at least one uppercase letter, one lowercase letter, and one number."
+        )
+      );
       return;
+    } else {
+      dispatch(setPasswordError(""));
     }
 
     // Validate confirm password
-    if (userData.confirmPassword.trim() === '') {
-      dispatch(setConfirmPasswordError('Please confirm your password.'));
+    if (userData.confirmPassword.trim() === "") {
+      dispatch(setConfirmPasswordError("Please confirm your password."));
       return;
     } else if (userData.confirmPassword !== userData.password) {
-      dispatch(setConfirmPasswordError('Passwords do not match.'));
+      dispatch(setConfirmPasswordError("Passwords do not match."));
       return;
+    } else {
+      dispatch(setConfirmPasswordError(""));
     }
 
     // Continue with signup logic
-    // Dispatch signUpSuccess action if signup is successful
-    dispatch(signUpSuccess());
+    // You can show a loading state while the signup process is in progress
+    // dispatch(signUpLoading());
 
-    // Otherwise, dispatch signUpFailure action with an error message
+    // Simulate a delay to show loading state
+    setTimeout(() => {
+      // Dispatch signUpSuccess action if signup is successful
+      dispatch(signUpSuccess());
+
+      alert("Successfully Signed Up");
+      // Clear the form after successful signup
+      dispatch(resetForm());
+    }, 2000);
+
     // dispatch(signUpFailure('An error occurred during signup.'));
   };
 };
-
-
 
 // Helper function to validate email
 const isValidEmail = (email) => {
@@ -187,3 +209,11 @@ const isValidPhoneNumber = (phone) => {
   const phonePattern = /^\d{10}$/;
   return phonePattern.test(phone);
 };
+
+// Password validation regex: At least 8 characters with at least one uppercase letter, one lowercase letter, and one number
+export const isValidPassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  return passwordRegex.test(password);
+};
+
+// MyPass123
